@@ -12,17 +12,17 @@ function App() {
 
   useEffect(() => {
     fetchQuestions()
-  },[])
+  }, [])
 
   useEffect(() => {
     const checkAnswerCount = () => {
-      if(questions.length > 0 && questions.every(q => q.selected_answer)) {
+      if (questions.length > 0 && questions.every(q => q.selected_answer)) {
         setAllAnswered(true)
       }
     }
 
     checkAnswerCount()
-  },[questions])
+  }, [questions])
 
   const fetchQuestions = () => {
     fetch('https://opentdb.com/api.php?amount=5&encode=url3986')
@@ -38,12 +38,13 @@ function App() {
         const allDecodedOptions = allOptions.map(option => decodeURIComponent(option))
         allOptions.sort(() => Math.random() - 0.5);
         return {
-          ...q, 
+          ...q,
           question: decodeURIComponent(q.question),
           correct_answer: decodeURIComponent(q.correct_answer),
-          all_answers: allDecodedOptions}
+          all_answers: allDecodedOptions
+        }
       })))
-      .catch(err => console.error(err)) 
+      .catch(err => console.error(err))
   }
 
   const countCorrectAnswers = () => {
@@ -56,11 +57,11 @@ function App() {
   }
 
   const handleAnswerSelection = (answer, question) => {
-    if(isCheckingAnswers) return
+    if (isCheckingAnswers) return
     setQuestions(prevQuestions => (
       prevQuestions.map(q => {
-        if(q.question === question) {
-          return {...q, selected_answer: answer}
+        if (q.question === question) {
+          return { ...q, selected_answer: answer }
         } else {
           return q
         }
@@ -68,41 +69,39 @@ function App() {
     ))
   }
 
-    const handleCheckClick = () => {
-      if(!questions.every(q => q.selected_answer)) {
-        return
-      }
-      countCorrectAnswers()
-      setIsCheckingAnswers(prev => !prev)
+  const handleCheckClick = () => {
+    if (!questions.every(q => q.selected_answer)) {
+      return
     }
-    
-    const handleGameReset = () => {
-      setAllAnswered(false)
-      setQuestions([])
-      fetchQuestions()
-      setCorrectAnswersNumber(0)
-      setIsCheckingAnswers(prev => !prev)
-    }
-    
-    const questionElements = questions.map(question => (
-      <Question 
-      key={question.question} 
+    countCorrectAnswers()
+    setIsCheckingAnswers(prev => !prev)
+  }
+
+  const handleGameReset = () => {
+    setAllAnswered(false)
+    setQuestions([])
+    fetchQuestions()
+    setCorrectAnswersNumber(0)
+    setIsCheckingAnswers(prev => !prev)
+  }
+
+  const questionElements = questions.map(question => (
+    <Question
+      key={question.question}
       handleAnswerSelection={handleAnswerSelection}
-      question={question} 
+      question={question}
       isCheckingAnswers={isCheckingAnswers}
-      />
-    ))
-      
-  
+    />
+  ))
 
   return (
     <main className='container'>
-      {showIntroScreen ? 
+      {showIntroScreen ?
         <IntroScreen startQuiz={handleQuizStart} /> :
         <>
           <h1>Quizzical</h1>
           {questions.length > 0 ? questionElements : <h3>Loading questions...</h3>}
-          <Footer 
+          <Footer
             handleCheckClick={handleCheckClick}
             handleGameReset={handleGameReset}
             isCheckingAnswers={isCheckingAnswers}

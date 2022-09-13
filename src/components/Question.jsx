@@ -10,7 +10,7 @@ const Question = ({ question, handleAnswerSelection, isCheckingAnswers }) => {
     backgroundColor: '#94D7A2',
     border: '1px solid #94D7A2'
   }
-  
+
   const incorrectStyle = {
     backgroundColor: '#F8BCBC',
     border: '1px solid #F8BCBC'
@@ -21,26 +21,26 @@ const Question = ({ question, handleAnswerSelection, isCheckingAnswers }) => {
   }
 
   const getStyles = (option) => {
-    if(isCheckingAnswers) {
-      if(option === question.correct_answer) {
+    if (isCheckingAnswers) {
+      if (option === question.correct_answer) {
         return correctStyle
       }
-      if(option === question.selected_answer) {
+      if (option === question.selected_answer) {
         return incorrectStyle
       }
       return fadedStyle
-    } 
-    if(option === question.selected_answer) {
+    }
+    if (option === question.selected_answer) {
       return selectedStyle
     }
   }
-  
+
   const optionElements = question.all_answers.map(option => {
     return (
-      <button 
+      <button
         key={option}
         style={getStyles(option)}
-        className='option-button' 
+        className='option-button'
         onClick={(e) => handleAnswerSelection(e.target.textContent, question.question)}
       >
         {option}

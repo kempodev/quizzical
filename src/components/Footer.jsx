@@ -1,8 +1,8 @@
-const Footer = ({ 
-  handleCheckClick, 
-  handleGameReset, 
-  isCheckingAnswers, 
-  correctAnswersNumber, 
+const Footer = ({
+  handleCheckClick,
+  handleGameReset,
+  isCheckingAnswers,
+  correctAnswersNumber,
   numberQuestions,
   allAnswered
 }) => {
