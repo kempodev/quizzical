@@ -45,6 +45,11 @@ main h1 {
   font-size: 1.1rem;
 }
 
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 .btn-large {
   padding: 15px 50px;
   font-size: 1.2rem;

@@ -3,7 +3,8 @@ const Footer = ({
   handleGameReset, 
   isCheckingAnswers, 
   correctAnswersNumber, 
-  numberQuestions 
+  numberQuestions,
+  allAnswered
 }) => {
   return (
     <footer>
@@ -12,7 +13,7 @@ const Footer = ({
           <h3>You scored {correctAnswersNumber}/{numberQuestions} correct answers</h3>
           <button className='btn-primary btn-reset' onClick={handleGameReset}>Play again</button>
         </> :
-        <button disabled={false} className='btn-primary' onClick={handleCheckClick}>Check answers</button>
+        <button disabled={!allAnswered} className='btn-primary' onClick={handleCheckClick}>Check answers</button>
       }
     </footer>
   )

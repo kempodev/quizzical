@@ -14,9 +14,24 @@ function App() {
     fetchQuestions()
   },[])
 
+  useEffect(() => {
+    const checkAnswerCount = () => {
+      if(questions.length > 0 && questions.every(q => q.selected_answer)) {
+        setAllAnswered(true)
+      }
+    }
+
+    checkAnswerCount()
+  },[questions])
+
   const fetchQuestions = () => {
     fetch('https://opentdb.com/api.php?amount=5&encode=url3986')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error: ${res.status}`);
+        }
+        return res.json();
+      })
       .then(data => setQuestions(data.results.map(q => {
         let allOptions = []
         allOptions = q.incorrect_answers.concat([q.correct_answer])
@@ -31,12 +46,6 @@ function App() {
       .catch(err => console.error(err)) 
   }
 
-  const checkAnswerCount = () => {
-    console.log(questions.every(q => q.selected_answer))
-    // if(questions.every(q => q.selected_answer)) {
-    //   setAllAnswered(prev => !prev)
-    // }
-  }
   const countCorrectAnswers = () => {
     const correctArray = questions.filter(q => q.selected_answer === q.correct_answer)
     setCorrectAnswersNumber(correctArray.length)
@@ -57,7 +66,6 @@ function App() {
         }
       })
     ))
-    checkAnswerCount()
   }
 
     const handleCheckClick = () => {
@@ -69,6 +77,7 @@ function App() {
     }
     
     const handleGameReset = () => {
+      setAllAnswered(false)
       setQuestions([])
       fetchQuestions()
       setCorrectAnswersNumber(0)
@@ -82,7 +91,7 @@ function App() {
       question={question} 
       isCheckingAnswers={isCheckingAnswers}
       />
-      ))
+    ))
       
   
 
@@ -99,6 +108,7 @@ function App() {
             isCheckingAnswers={isCheckingAnswers}
             correctAnswersNumber={correctAnswersNumber}
             numberQuestions={questions.length}
+            allAnswered={allAnswered}
           />
         </>
       }
