@@ -53,8 +53,6 @@ function App() {
       .catch(err => console.error(err))
   }
 
-
-
   const countCorrectAnswers = () => {
     const correctArray = questions.filter(q => q.selected_answer === q.correct_answer)
     setCorrectAnswersNumber(correctArray.length)
