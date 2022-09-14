@@ -86,8 +86,20 @@ footer {
 }
 
 @media screen and (max-width: 600px) {
+
   body {
     height: auto;
+  }
+
+  main {
+    min-height: 100vh;
+  }
+
+  .intro-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   footer {
@@ -96,5 +108,9 @@ footer {
     justify-content: center;
     align-items: center;
     padding-top: 1rem;
+  }
+
+  .btn-reset {
+    margin-left: 0;
   }
 }
