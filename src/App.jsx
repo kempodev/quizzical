@@ -25,14 +25,8 @@ function App() {
   }, [questions])
 
   const fetchQuestions = () => {
-    fetch('https://opentdb.com/api.php?amount=5&encode=url3986')
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(`HTTP error: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then(data => setQuestions(data.results.map(q => {
+    const shuffleOptions = (questionArray) => {
+      const shuffledArray = questionArray.map(q => {
         let allOptions = []
         allOptions = q.incorrect_answers.concat([q.correct_answer])
         const allDecodedOptions = allOptions.map(option => decodeURIComponent(option))
@@ -43,9 +37,23 @@ function App() {
           correct_answer: decodeURIComponent(q.correct_answer),
           all_answers: allDecodedOptions
         }
-      })))
+      })
+      return shuffledArray
+    }
+
+    fetch('https://opentdb.com/api.php?amount=5&encode=url3986')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then(data => setQuestions(shuffleOptions(data.results))
+      )
       .catch(err => console.error(err))
   }
+
+
 
   const countCorrectAnswers = () => {
     const correctArray = questions.filter(q => q.selected_answer === q.correct_answer)
