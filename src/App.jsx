@@ -41,7 +41,7 @@ function App() {
       return shuffledArray
     }
 
-    fetch('https://opentdb.com/api.php?amount=5&encode=url3986')
+    fetch('https://opentdb.com/api.php?amount=5&type=multiple&encode=url3986')
       .then(res => {
         if (!res.ok) {
           throw new Error(`HTTP error: ${res.status}`);
