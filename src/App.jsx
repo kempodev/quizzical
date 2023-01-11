@@ -18,7 +18,9 @@ function App() {
     const checkAnswerCount = () => {
       if (questions.length > 0 && questions.every(q => q.selected_answer)) {
         setAllAnswered(true)
+        return
       }
+      setAllAnswered(false)
     }
 
     checkAnswerCount()
@@ -67,6 +69,10 @@ function App() {
     setQuestions(prevQuestions => (
       prevQuestions.map(q => {
         if (q.question === question) {
+          // If selected answer is deselected
+          if (answer === q.selected_answer) {
+            return { ...q, selected_answer: null }
+          }
           return { ...q, selected_answer: answer }
         } else {
           return q
